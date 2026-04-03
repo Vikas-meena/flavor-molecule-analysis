@@ -2,11 +2,12 @@ def prepare_molecule_data(molecules):
     """
     Extract useful features + label
     """
-    # Drop unnecessary columns (adjust based on your dataset)
-    molecules = molecules.dropna()
-
-    # Example: assume 'flavor_profile' exists
-    molecules = molecules[molecules['flavor_profile'].notna()]
+    # Only filter for rows with a flavor_profile label (our target)
+    molecules = molecules[molecules['flavor_profile'].notna()].copy()
+    
+    # Fill NaN in numeric columns with 0 (for missing molecular descriptors)
+    numeric_cols = molecules.select_dtypes(include=['float64', 'int64']).columns
+    molecules[numeric_cols] = molecules[numeric_cols].fillna(0)
 
     return molecules
 
