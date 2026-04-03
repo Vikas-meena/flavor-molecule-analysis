@@ -1,14 +1,23 @@
-import numpy as np
+def prepare_molecule_data(molecules):
+    """
+    Extract useful features + label
+    """
+    # Drop unnecessary columns (adjust based on your dataset)
+    molecules = molecules.dropna()
 
-def normalize_features(X):
-    """
-    Simple normalization
-    """
-    return (X - X.mean()) / X.std()
+    # Example: assume 'flavor_profile' exists
+    molecules = molecules[molecules['flavor_profile'].notna()]
+
+    return molecules
 
 
-def handle_missing_values(X):
+def encode_labels(df):
     """
-    Fill missing values with mean
+    Convert flavor labels to numbers
     """
-    return X.fillna(X.mean())
+    from sklearn.preprocessing import LabelEncoder
+
+    le = LabelEncoder()
+    df['label'] = le.fit_transform(df['flavor_profile'])
+
+    return df, le

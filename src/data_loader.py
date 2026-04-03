@@ -1,17 +1,8 @@
 import pandas as pd
 
-def load_data(path):
-    """
-    Load dataset from CSV
-    """
-    df = pd.read_csv(path)
-    return df
+def load_data():
+    molecules = pd.read_csv("../data/raw/fdb_molecules.csv")
+    entities = pd.read_csv("../data/raw/fdb_entities.csv")
+    mapping = pd.read_csv("../data/raw/fdb_molecules_entities.csv")
 
-
-def split_features_labels(df, label_col="flavor"):
-    """
-    Split into features and labels
-    """
-    X = df.drop(columns=[label_col])
-    y = df[label_col]
-    return X, y
+    return molecules, entities, mapping
